@@ -1,4 +1,5 @@
 SRCS = 	 ft_atoi.c \
+	 ft_atol.c	\
 	 ft_bzero.c \
 	 ft_isalnum.c \
 	 ft_isalpha.c \
