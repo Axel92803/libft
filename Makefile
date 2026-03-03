@@ -1,54 +1,10 @@
-SRCS = 	 ft_atoi.c \
-	 ft_atol.c	\
-	 ft_bzero.c \
-	 ft_isalnum.c \
-	 ft_isalpha.c \
-	 ft_isascii.c \
-	 ft_isdigit.c \
-	 ft_isprint.c \
-	 ft_memchr.c \
-	 ft_memcmp.c \
-	 ft_memmove.c \
-	 ft_memcpy.c \
-	 ft_memset.c \
-	 ft_calloc.c \
-     ft_strdup.c \
-	 ft_strlcpy.c \
-	 ft_strlcat.c \
-	 ft_strlen.c \
-	 ft_strncmp.c \
-	 ft_strchr.c \
-	 ft_strrchr.c \
-	 ft_strnstr.c \
-	 ft_tolower.c \
-	 ft_toupper.c \
-	 ft_strtrim.c \
-	 ft_substr.c \
-	 ft_strjoin.c \
-	 ft_split.c \
-	 ft_itoa.c \
-	 ft_strmapi.c \
-	 ft_striteri.c \
-	 ft_putchar_fd.c \
-	 ft_putstr_fd.c \
-	 ft_putendl_fd.c \
-	 ft_putnbr_fd.c \
+NAME = libft.a
 
-OFILES = $(SRCS:.c=.o)
+INC					= inc/
+SRC_DIR				= src/
+OBJ_DIR				= obj/
 
-BSRCS = ft_lstnew.c \
-	ft_lstadd_front.c \
-	ft_lstsize.c \
-	ft_lstlast.c \
-	ft_lstadd_back.c \
-	ft_lstdelone.c \
-	ft_lstclear.c \
-	ft_lstiter.c \
-	ft_lstmap.c \
-
-BOFILES = $(BSRCS:.c=.o)
-
-CC = gcc
+CC = cc
 
 LIBC = ar rcs
 
@@ -56,24 +12,84 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-NAME = libft.a
 
-${NAME}: 	${OFILES}
-			${LIBC} ${NAME} ${OFILES}
+CTYPE_DIR	=	$(SRC_DIR)ctype/ft_isalnum.c \
+						$(SRC_DIR)ctype/ft_isalpha.c \
+	 			    	$(SRC_DIR)ctype/ft_isascii.c \
+	 			    	$(SRC_DIR)ctype/ft_isdigit.c \
+	 			    	$(SRC_DIR)ctype/ft_isprint.c \
+ 				    	$(SRC_DIR)ctype/ft_tolower.c \
+	 			    	$(SRC_DIR)ctype/ft_toupper.c \
 
-all: 		${NAME} bonus
+LST_DIR		=	$(SRC_DIR)lst/ft_lstnew.c \
+				    	$(SRC_DIR)lst/ft_lstadd_front.c \
+				    	$(SRC_DIR)lst/ft_lstsize.c \
+				    	$(SRC_DIR)lst/ft_lstlast.c \
+				    	$(SRC_DIR)lst/ft_lstadd_back.c \
+				    	$(SRC_DIR)lst/ft_lstdelone.c \
+				    	$(SRC_DIR)lst/ft_lstclear.c \
+				    	$(SRC_DIR)lst/ft_lstiter.c \
+				    	$(SRC_DIR)lst/ft_lstmap.c \
 
-bonus:		${NAME} ${BOFILES}
-			${LIBC} ${NAME} ${BOFILES}
+MEM_DIR		=	$(SRC_DIR)mem/ft_memchr.c \
+	 					$(SRC_DIR)mem/ft_memcmp.c \
+	 					$(SRC_DIR)mem/ft_memmove.c \
+	 					$(SRC_DIR)mem/ft_memcpy.c \
+	 			    	$(SRC_DIR)mem/ft_memset.c \
+	 			    	$(SRC_DIR)mem/ft_bzero.c \
+	 			    	$(SRC_DIR)mem/ft_calloc.c \
+
+NUM_DIR		=	$(SRC_DIR)num/ft_atoi.c \
+	 					$(SRC_DIR)num/ft_atol.c	\
+	 					$(SRC_DIR)num/ft_itoa.c \
+
+PUT_DIR		=	$(SRC_DIR)put_fd/ft_putchar_fd.c \
+	 					$(SRC_DIR)put_fd/ft_putstr_fd.c \
+				    	$(SRC_DIR)put_fd/ft_putendl_fd.c \
+	 			    	$(SRC_DIR)put_fd/ft_putnbr_fd.c \
+
+
+STR_DIR		=	$(SRC_DIR)str/ft_strdup.c \
+						$(SRC_DIR)str/ft_strlcpy.c \
+	 					$(SRC_DIR)str/ft_strlcat.c \
+	 					$(SRC_DIR)str/ft_strlen.c \
+	 					$(SRC_DIR)str/ft_strncmp.c \
+	 					$(SRC_DIR)str/ft_strchr.c \
+	 					$(SRC_DIR)str/ft_strrchr.c \
+	 					$(SRC_DIR)str/ft_strnstr.c \
+	 					$(SRC_DIR)str/ft_strtrim.c \
+	 					$(SRC_DIR)str/ft_substr.c \
+	 					$(SRC_DIR)str/ft_strjoin.c \
+	 					$(SRC_DIR)str/ft_split.c \
+	 					$(SRC_DIR)str/ft_strmapi.c \
+	 					$(SRC_DIR)str/ft_striteri.c \
+
+
+SRCS 		= 		$(CTYPE_DIR) $(LST_DIR) $(MEM_DIR) $(NUM_DIR) $(PUT_DIR) $(STR_DIR)
+
+OBJ 		= 		$(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
+	
+start:				
+					@make all
+
+all: 				$(NAME)
+
+$(NAME): 			$(OBJ)
+					@$(LIBC) $(NAME) $(OBJ)
+					@echo "Libft compiled successfully"
+
+$(OBJ_DIR)%.o:		$(SRC_DIR)%.c 
+					@mkdir -p $(@D)
+					@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
 
 clean:
-			${RM} ${OFILES} ${BOFILES}
+					@$(RM) -r $(OBJ_DIR)
+					@echo "Cleaned libft .o files"
 
-fclean: 	clean
-			${RM} ${NAME}
+fclean: 			clean
+					@$(RM) $(NAME)
+					@echo "Removed libft.a"
 
-re: 		fclean ${NAME}
+re: 				fclean all
 
-rebonus:	fclean bonus
-
-.PHONY:  all clean fclean re
+.PHONY: 			start all clean fclean re

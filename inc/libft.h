@@ -28,7 +28,6 @@ long	ft_atol(const char *nptr);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
-int		ft_isspace(int c);
 int		ft_isprint(int c);
 int		ft_isascii(int c);
 int		ft_tolower(int c);
@@ -74,4 +73,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
 #endif
